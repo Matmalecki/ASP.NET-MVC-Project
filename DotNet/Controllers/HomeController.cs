@@ -18,15 +18,17 @@ namespace DotNet.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult About()
         {
+            ViewData["Message"] = "Admin can access this page";
+
             return View();
         }
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "User and Admin can access this page";
 
             return View();
         }
