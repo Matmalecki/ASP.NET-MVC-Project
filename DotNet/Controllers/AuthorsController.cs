@@ -22,13 +22,23 @@ namespace DotNet.Controllers
         }
 
         // GET: Authors
-        
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string searchString, string column )
         {
+            var authors = from m in _context.Author
+                          select m;
 
-            return View(await _context.Author.ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                authors = authors.Where(s => s.FullName.Contains(searchString) 
+                || ( string.IsNullOrEmpty(s.Email) ? false : s.Email.Contains(searchString)  )
+                || s.DateOfBirth.ToString().Contains(searchString)
+                );
+            }
+            authors.OrderBy(s => s.DateOfBirth);
+
+            return View(await authors.ToListAsync());
         }
-
         // GET: Authors/Details/5
         public async Task<IActionResult> Details(int? id)
         {

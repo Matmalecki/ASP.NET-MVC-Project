@@ -20,10 +20,18 @@ namespace DotNet.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var applicationDbContext = _context.Book.Include(b => b.Author);
-            return View(await applicationDbContext.ToListAsync());
+            var books = from m in _context.Book.Include(a => a.Author) select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(b => b.allFields.Contains(searchString));
+
+            }
+            books.OrderBy(b => b.YearOfRelease);
+
+            return View(await books.ToListAsync());
         }
 
         // GET: Books/Details/5

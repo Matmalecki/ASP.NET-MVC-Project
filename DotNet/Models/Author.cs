@@ -42,7 +42,7 @@ namespace Project.Models
 
         public string AllFields
         {
-            get { return FirstName + LastName + DateOfBirth.ToString(); }
+            get { return FirstName + LastName + DateOfBirth.ToString()+Email; }
         }
 
     }
