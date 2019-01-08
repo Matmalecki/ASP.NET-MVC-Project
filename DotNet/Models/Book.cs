@@ -31,7 +31,6 @@ namespace DotNet.Models
         public string Genre { get; set; }
 
         public int AuthorID { get; set; }
-        [Required]
         public Author Author { get; set; }
 
     }

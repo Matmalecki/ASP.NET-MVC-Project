@@ -63,7 +63,7 @@ namespace DotNet.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FirstName");
+            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName");
             return View();
         }
 
@@ -80,7 +80,7 @@ namespace DotNet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FirstName", book.AuthorID);
+            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName", book.AuthorID);
             return View(book);
         }
 
@@ -97,7 +97,7 @@ namespace DotNet.Controllers
             {
                 return NotFound();
             }
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FirstName", book.AuthorID);
+            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName", book.AuthorID);
             return View(book);
         }
 
@@ -133,7 +133,7 @@ namespace DotNet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FirstName", book.AuthorID);
+            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName", book.AuthorID);
             return View(book);
         }
 
