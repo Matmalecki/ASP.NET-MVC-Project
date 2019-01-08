@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DotNet.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DotNet.Custom
@@ -10,18 +12,28 @@ namespace DotNet.Custom
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            /* Category category = (Category)validationContext.ObjectInstance;
+            Book book = (Book)validationContext.ObjectInstance;
 
-             if (Regex.Match(category.Subcategories, "(^[A-Z][a-z]+;)+$").Success)
+             if (!Regex.Match(book.Genre, "^[A-Z][a-z]+([;][A-Z][a-z]+)*$").Success)
              {
                  return new ValidationResult(GetErrorMessage());
              }
-             */
+             
             return ValidationResult.Success;
         }
         private string GetErrorMessage()
         {
-            return $"Digits should be separated by colon(;).";
+            return $"More than 1 genre should be seperated with colon.";
+        }
+
+        private bool checkGenres(string genre)
+        {
+            var list = genre.Split(";");
+            var duplicates = list.GroupBy(s => s).SelectMany(g => g.Skip(1));
+
+            if (duplicates.Any())
+                return false;
+            return true;
         }
     }
 }

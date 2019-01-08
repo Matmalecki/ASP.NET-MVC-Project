@@ -24,10 +24,10 @@ namespace DotNet.Models
 
         [Required]
         [Display(Name = "ISBN")]
-        [IsbnAttribute]
+        [Isbn]
         public string Isbn { get; set; }
 
-        [GenreAttribute]
+        [Genre]
         public string Genre { get; set; }
 
         public int AuthorID { get; set; }

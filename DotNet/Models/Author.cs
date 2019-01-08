@@ -26,7 +26,7 @@ namespace Project.Models
         [Required]
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateOfBirth { get; set; }
 
 
@@ -39,6 +39,7 @@ namespace Project.Models
         {
             get { return LastName + " " + FirstName; }
         }
+
 
 
 
