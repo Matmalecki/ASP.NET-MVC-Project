@@ -34,9 +34,5 @@ namespace DotNet.Models
         [Required]
         public Author Author { get; set; }
 
-        public string allFields
-        {
-            get { return Title + YearOfRelease.ToString() + Isbn + Genre+Author.FullName.ToString(); }
-        }
     }
 }

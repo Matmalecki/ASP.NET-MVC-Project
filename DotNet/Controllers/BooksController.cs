@@ -22,11 +22,18 @@ namespace DotNet.Controllers
         // GET: Books
         public async Task<IActionResult> Index(string searchString)
         {
+
+
             var books = from m in _context.Book.Include(a => a.Author) select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                books = books.Where(b => b.allFields.Contains(searchString));
+                books = books.Where(s => s.Author.FullName.Contains(searchString)
+                || s.YearOfRelease.ToString().Contains(searchString)
+                || s.Title.Contains(searchString)
+                || s.Genre.Contains(searchString)
+                || s.Isbn.Contains(searchString)
+                );
 
             }
             books.OrderBy(b => b.YearOfRelease);
