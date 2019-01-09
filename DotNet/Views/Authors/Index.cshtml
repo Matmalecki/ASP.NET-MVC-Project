@@ -50,13 +50,7 @@
                 @Html.DisplayFor(modelItem => item.DateOfBirth)
             </td>
             <td>
-                @if  (item.Email != null) {
-                    @Html.DisplayFor(modelItem => item.Email)
-                }
-                else
-                {
-                    <p>N/A</p>
-                }
+                <partial>@await Html.PartialAsync("Email", item)</partial>
             </td>
 
             <td>

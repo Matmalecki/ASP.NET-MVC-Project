@@ -1,4 +1,5 @@
-﻿@model DotNet.Models.Book
+﻿@using DotNet.Models
+@model DotNet.Models.Book
 
 @{
     ViewData["Title"] = "Details";
@@ -42,6 +43,9 @@
         </dd>
     </dl>
 </div>
+
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
     <a asp-action="Index">Back to List</a>

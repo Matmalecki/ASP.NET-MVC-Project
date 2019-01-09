@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model Project.Models.Author
+
+@if (Model.Email != null)
+{
+    @Html.DisplayFor(modelItem => Model.Email)
+}
+else
+{
+    <p>N/A</p>
+}
+

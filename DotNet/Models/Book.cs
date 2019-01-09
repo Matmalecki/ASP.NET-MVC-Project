@@ -19,6 +19,7 @@ namespace DotNet.Models
         public string Title { get; set; }
 
         [Required]
+        [YearOfRelease]
         [Display(Name = "Year of release")]
         public int YearOfRelease { get; set; }
 
