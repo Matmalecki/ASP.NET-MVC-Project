@@ -14,7 +14,7 @@ namespace DotNet.Custom
         {
             Book book = (Book)validationContext.ObjectInstance;
 
-             if (!Regex.Match(book.Genre, "^[A-Z][a-z]+([;][A-Z][a-z]+)*$").Success)
+             if (!Regex.Match(book.Genre, "^([A-Z][a-z]+[ ]?)+([;][A-Z][a-z]+)*$").Success)
              {
                  return new ValidationResult(GetErrorMessage());
              }

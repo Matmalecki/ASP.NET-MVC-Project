@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DotNet.Data;
 using DotNet.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotNet.Controllers
 {
@@ -20,6 +21,7 @@ namespace DotNet.Controllers
         }
 
         // GET: Books
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string searchString)
         {
 
@@ -42,6 +44,7 @@ namespace DotNet.Controllers
         }
 
         // GET: Books/Details/5
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,6 +64,7 @@ namespace DotNet.Controllers
         }
 
         // GET: Books/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName");
@@ -72,6 +76,7 @@ namespace DotNet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ID,Title,YearOfRelease,Isbn,Genre,AuthorID")] Book book)
         {
             if (ModelState.IsValid)
@@ -85,6 +90,7 @@ namespace DotNet.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,6 +112,7 @@ namespace DotNet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Title,YearOfRelease,Isbn,Genre,AuthorID")] Book book)
         {
             if (id != book.ID)
@@ -138,6 +145,7 @@ namespace DotNet.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,6 +167,7 @@ namespace DotNet.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var book = await _context.Book.FindAsync(id);
