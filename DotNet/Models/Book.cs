@@ -14,7 +14,7 @@ namespace DotNet.Models
 
         [Required]
         [Display(Name = "Title")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+        [RegularExpression(@"^[A-Za-z0-9\s\-_,\.;:()]+$")]
         [StringLength(100, ErrorMessage = "Title cannot be longer than 100 characters.")]
         public string Title { get; set; }
 

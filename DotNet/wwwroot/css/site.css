@@ -28,8 +28,12 @@ body {
     margin: 15px;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
+.navbar-custom {
+    color: #000000;
+    background-color: #ffffff;
+}
+    /* Hide/rearrange for smaller screens */
+    @media screen and (max-width: 767px) {
     /* Hide captions */
     .carousel-caption {
         display: none;

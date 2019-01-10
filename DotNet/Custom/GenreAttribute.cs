@@ -14,7 +14,7 @@ namespace DotNet.Custom
         {
             Book book = (Book)validationContext.ObjectInstance;
 
-             if (!Regex.Match(book.Genre, "^([A-Z][a-z]+[ ]?)+([;][A-Z][a-z]+)*$").Success)
+             if (!Regex.Match(book.Genre, "^([A-Z][a-z]+[ ]?)+([;]([A-Z][a-z]+[ ]?)+)*$").Success || !checkGenres(book.Genre))
              {
                  return new ValidationResult(GetErrorMessage());
              }
@@ -23,7 +23,7 @@ namespace DotNet.Custom
         }
         private string GetErrorMessage()
         {
-            return $"More than 1 genre should be seperated with colon.";
+            return $"More than 1 genre should be seperated with colon. Multiple genres mustn't have duplicates.";
         }
 
         private bool checkGenres(string genre)
@@ -31,7 +31,7 @@ namespace DotNet.Custom
             var list = genre.Split(";");
             var duplicates = list.GroupBy(s => s).SelectMany(g => g.Skip(1));
 
-            if (duplicates.Any())
+            if (duplicates.Count() > 0)
                 return false;
             return true;
         }

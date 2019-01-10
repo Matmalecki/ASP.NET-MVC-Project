@@ -25,14 +25,7 @@
             @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd>
-            @if (Model.Email != null)
-            {
-                @Html.DisplayFor(modelItem => Model.Email)
-            }
-            else
-            {
-                <p>N/A</p>
-            }
+            @await Html.PartialAsync("../Authors/Email", Model)
         </dd>
     </dl>
 </div>
