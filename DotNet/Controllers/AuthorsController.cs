@@ -23,21 +23,28 @@ namespace DotNet.Controllers
 
         // GET: Authors
         [Authorize(Roles = "Admin,User")]
-        public async Task<IActionResult> Index(string searchString, string column )
+        public async Task<IActionResult> Index(string searchString)
         {
-            var authors = from m in _context.Author
-                          select m;
-
             if (!String.IsNullOrEmpty(searchString))
             {
-                authors = authors.Where(s => s.FullName.Contains(searchString) 
-                || ( string.IsNullOrEmpty(s.Email) ? false : s.Email.Contains(searchString)  )
-                || s.DateOfBirth.ToString().Contains(searchString)
-                );
-            }
-            authors.OrderBy(s => s.DateOfBirth);
+                var authors = from m in _context.Author where m.FullName.Contains(searchString)
+                          || (string.IsNullOrEmpty(m.Email) ? false : m.Email.Contains(searchString)) 
+                          || m.DateOfBirth.ToString().Contains(searchString)
+                          select m;
 
-            return View(await authors.ToListAsync());
+                authors.OrderBy(s => s.DateOfBirth);
+
+                return View(await authors.ToListAsync());
+            }
+            else
+            {
+                var authors = from m in _context.Author select m;
+                authors.OrderBy(s => s.DateOfBirth);
+
+                return View(await authors.ToListAsync());
+
+            }
+
         }
         // GET: Authors/Details/5
         [Authorize(Roles = "Admin,User")]
