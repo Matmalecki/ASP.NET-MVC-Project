@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DotNet.Models.Book>
+
+@{
+    var statisticsCountry = Model.GroupBy(b => b.Country).Select(group =>
+        new { CountryName = group.Key, CountryCount = group.Count() });
+    var statisticsAuthor = Model.GroupBy(b => b.Author.FullName).Select(group =>
+        new { AuthorName = group.Key, AuthorCount = group.Count() });
+}
+
+
+<h3>Statistics</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Country
+            </th>
+            <th>
+                Count
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in statisticsCountry)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryCount)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Author
+            </th>
+            <th>
+                Count
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in statisticsAuthor)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AuthorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AuthorCount)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+

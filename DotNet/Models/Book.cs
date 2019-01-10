@@ -34,6 +34,7 @@ namespace DotNet.Models
         public string Isbn { get; set; }
 
         [Genre]
+        [DisplayFormat(NullDisplayText = "No Genres specified")]
         public string Genre { get; set; }
 
         public int AuthorID { get; set; }

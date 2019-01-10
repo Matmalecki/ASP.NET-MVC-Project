@@ -32,7 +32,7 @@ namespace DotNet.Controllers
                 books = books.Where(s => s.Author.FullName.Contains(searchString)
                 || s.YearOfRelease.ToString().Contains(searchString)
                 || s.Title.Contains(searchString)
-                || s.Genre.Contains(searchString)
+                || (string.IsNullOrEmpty(s.Genre) ? false : s.Genre.Contains(searchString))
                 || s.Country.Contains(searchString)
                 || s.Isbn.Contains(searchString)
                 );

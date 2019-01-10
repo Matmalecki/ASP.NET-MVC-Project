@@ -14,10 +14,13 @@ namespace DotNet.Custom
         {
             Book book = (Book)validationContext.ObjectInstance;
 
-             if (!Regex.Match(book.Genre, "^([A-Z][a-z]+[ ]?)+([;]([A-Z][a-z]+[ ]?)+)*$").Success || !checkGenres(book.Genre))
-             {
-                 return new ValidationResult(GetErrorMessage());
-             }
+            if (book.Genre != null)
+            {
+                if (!Regex.Match(book.Genre, "^([A-Z][a-z]+[ ]?)+([;]([A-Z][a-z]+[ ]?)+)*$").Success || !checkGenres(book.Genre))
+                {
+                    return new ValidationResult(GetErrorMessage());
+                }
+            }
              
             return ValidationResult.Success;
         }
