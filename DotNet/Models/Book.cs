@@ -25,6 +25,7 @@ namespace DotNet.Models
 
         [Required]
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+        [StringLength(100, ErrorMessage = "Country name cannot be longer than 100 characters.")]
         public string Country { get; set; }
 
 
@@ -34,6 +35,7 @@ namespace DotNet.Models
         public string Isbn { get; set; }
 
         [Genre]
+        [StringLength(200, ErrorMessage = "Genres cannot be longer than 200 characters.")]
         [DisplayFormat(NullDisplayText = "No Genres specified")]
         public string Genre { get; set; }
 
