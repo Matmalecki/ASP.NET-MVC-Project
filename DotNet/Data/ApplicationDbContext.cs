@@ -32,11 +32,11 @@ namespace DotNet.Data
                 );
             
             builder.Entity<Book>().HasData(
-                    new Book { ID = 1, Title = "East of Eden", YearOfRelease = 1952, Isbn = "0-7832-3901-7", Genre = "Drama", AuthorID = 2 },
-                    new Book { ID = 2, Title = "A Farewell To Arms", YearOfRelease = 1929, Isbn = "0-9631-9574-3", Genre = "Drama", AuthorID = 1 },
-                    new Book { ID = 3, Title = "It", YearOfRelease = 1980, Isbn = "0-8400-7082-9", Genre = "Horror", AuthorID = 3 },
-                    new Book { ID = 4, Title = "The Rebel", YearOfRelease = 1951, Isbn = "0-9101-3138-4", Genre = "Philosophy", AuthorID = 4 },
-                    new Book { ID = 5, Title = "For Whom The Bell Tolls ", YearOfRelease = 1940, Isbn = "0-8886-5105-8", Genre = "Drama", AuthorID = 1 }
+                    new Book { ID = 1, Title = "East of Eden", YearOfRelease = 1952, Isbn = "0-7832-3901-7", Genre = "Drama", AuthorID = 2 , Country="Usa"},
+                    new Book { ID = 2, Title = "A Farewell To Arms", YearOfRelease = 1929, Isbn = "0-9631-9574-3", Genre = "Drama", AuthorID = 1, Country = "Usa" },
+                    new Book { ID = 3, Title = "It", YearOfRelease = 1980, Isbn = "0-8400-7082-9", Genre = "Horror", AuthorID = 3, Country = "Usa" },
+                    new Book { ID = 4, Title = "The Rebel", YearOfRelease = 1951, Isbn = "0-9101-3138-4", Genre = "Philosophy", AuthorID = 4, Country = "France" },
+                    new Book { ID = 5, Title = "For Whom The Bell Tolls ", YearOfRelease = 1940, Isbn = "0-8886-5105-8", Genre = "Drama", AuthorID = 1, Country = "Usa" }
                 );
                 
         }

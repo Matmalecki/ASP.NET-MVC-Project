@@ -25,7 +25,6 @@ namespace DotNet.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
 
-
             var books = from m in _context.Book.Include(a => a.Author) select m;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -34,6 +33,7 @@ namespace DotNet.Controllers
                 || s.YearOfRelease.ToString().Contains(searchString)
                 || s.Title.Contains(searchString)
                 || s.Genre.Contains(searchString)
+                || s.Country.Contains(searchString)
                 || s.Isbn.Contains(searchString)
                 );
 
@@ -77,7 +77,7 @@ namespace DotNet.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ID,Title,YearOfRelease,Isbn,Genre,AuthorID")] Book book)
+        public async Task<IActionResult> Create([Bind("ID,Title,YearOfRelease,Isbn,Genre,Country,AuthorID")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +113,7 @@ namespace DotNet.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,YearOfRelease,Isbn,Genre,AuthorID")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,YearOfRelease,Isbn,Genre,Country,AuthorID")] Book book)
         {
             if (id != book.ID)
             {

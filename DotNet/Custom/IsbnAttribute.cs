@@ -9,11 +9,18 @@ namespace DotNet.Custom
 {
     public class IsbnAttribute : ValidationAttribute
     {
+        private string _country;
+
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Book book = (Book)validationContext.ObjectInstance;
+            _country = book.Country;
 
             if (!checkIsbn(book.Isbn))
+            {
+                return new ValidationResult(GetErrorMessage());
+            }
+            if (!checkCountry(book.Isbn))
             {
                 return new ValidationResult(GetErrorMessage());
             }
@@ -40,6 +47,31 @@ namespace DotNet.Custom
             else
                 return isbn[9] == (char)('0' + remainder);
 
+        }
+
+        bool checkCountry(string isbn)
+        {
+            string iCountry ="";
+            switch(isbn[0])
+            {
+                case '0':
+                    iCountry = "Usa";
+                    break;
+                case '1':
+                    iCountry = "Usa";
+                    break;
+                case '2':
+                    iCountry = "France";
+                    break;
+                case '3':
+                    iCountry = "Germany";
+                    break;
+                default:
+                    break;
+            }
+            if (iCountry != _country)
+                return false;
+            return true;
         }
 
         private string GetErrorMessage()

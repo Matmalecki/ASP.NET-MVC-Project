@@ -24,6 +24,11 @@ namespace DotNet.Models
         public int YearOfRelease { get; set; }
 
         [Required]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
+        public string Country { get; set; }
+
+
+        [Required]
         [Display(Name = "ISBN")]
         [Isbn]
         public string Isbn { get; set; }
