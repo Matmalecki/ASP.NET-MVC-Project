@@ -5,13 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace xUnitDotNetTest
 {
-    public class UnitTest1
+    public class HomeControllerTest
     {
-        [Fact]
-        public void Test1()
-        {
 
-        }
 
         [Fact]
         public void TestHomeIndexController()
