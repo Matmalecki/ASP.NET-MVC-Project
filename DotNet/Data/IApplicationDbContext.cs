@@ -15,8 +15,8 @@ namespace DotNet.Data
         IQueryable<Book> Books { get; }
 
         void Add<T>(T entity) where T : class;
-        Task<Author> FindAuthorById(int ID);
-        Task<Book> FindBookById(int ID);
+        Author FindAuthorById(int ID);
+        Book FindBookById(int ID);
         void Delete<T>(T entity) where T : class;
         Task<int> SaveChanges();
         void Update<T>(T entity) where T : class;

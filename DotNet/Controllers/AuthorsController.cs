@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace DotNet.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class AuthorsController : Controller
     {
         private readonly IApplicationDbContext _context;
@@ -48,15 +48,14 @@ namespace DotNet.Controllers
         }
         // GET: Authors/Details/5
         [Authorize(Roles = "Admin,User")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return NotFound();
             }
 
-            var author = await _context.Authors
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var author = _context.FindAuthorById(id);
             if (author == null)
             {
                 return NotFound();
@@ -66,7 +65,6 @@ namespace DotNet.Controllers
         }
 
         // GET: Authors/Create
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -74,7 +72,6 @@ namespace DotNet.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ID,LastName,FirstName,DateOfBirth,Email")] Author author)
         {
             if (ModelState.IsValid)
@@ -87,15 +84,14 @@ namespace DotNet.Controllers
         }
 
         // GET: Authors/Edit/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
             if (id <= 0)
             {
                 return NotFound();
             }
 
-            var author = await _context.FindAuthorById(id);
+            var author = _context.FindAuthorById(id);
             if (author == null)
             {
                 return NotFound();
@@ -105,7 +101,6 @@ namespace DotNet.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,LastName,FirstName,DateOfBirth,Email")] Author author)
         {
             if (id != author.ID)
@@ -137,7 +132,6 @@ namespace DotNet.Controllers
         }
 
         // GET: Authors/Delete/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -159,11 +153,11 @@ namespace DotNet.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var author = await _context.FindAuthorById(id);
+            var author = _context.FindAuthorById(id);
             _context.Delete<Author>(author);
-            await _context.SaveChanges();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

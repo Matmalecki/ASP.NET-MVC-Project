@@ -88,14 +88,14 @@ namespace DotNet.Controllers
 
         // GET: Books/Edit/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
             if (id <= 0)
             {
                 return NotFound();
             }
 
-            var book = await _context.FindBookById(id);
+            var book = _context.FindBookById(id);
             if (book == null)
             {
                 return NotFound();
@@ -162,11 +162,11 @@ namespace DotNet.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var book = await _context.FindBookById(id);
+            var book = _context.FindBookById(id);
             _context.Delete<Book>(book);
-            await _context.SaveChanges();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

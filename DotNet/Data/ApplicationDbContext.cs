@@ -34,14 +34,14 @@ namespace DotNet.Data
             Set<T>().Remove(entity);
         }
 
-        public Task<Author> FindAuthorById(int ID)
+        public Author FindAuthorById(int ID)
         {
-            return Author.FindAsync(ID);
+            return Author.Find(ID);
         }
 
-        public Task<Book> FindBookById(int ID)
+        public Book FindBookById(int ID)
         {
-            return Book.FindAsync(ID);
+            return Book.Find(ID);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

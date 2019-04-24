@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    <li policy="AdminPolicy"><a asp-action="Create">Create New</a></li>
+    <li policy="UserPolicy"><a asp-action="Create">Create New</a></li>
 </p>
 
 
@@ -54,11 +54,11 @@
             </td>
 
             <td>
-                <li policy="AdminPolicy">
+                <li policy="UserPolicy">
                     <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
                 </li>
                 <li><a asp-action="Details" asp-route-id="@item.ID">Details</a></li>
-                <li policy="AdminPolicy">
+                <li policy="UserPolicy">
                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                 </li>
             </td>
