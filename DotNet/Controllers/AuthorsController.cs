@@ -14,9 +14,9 @@ namespace DotNet.Controllers
     [Authorize]
     public class AuthorsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public AuthorsController(ApplicationDbContext context)
+        public AuthorsController(IApplicationDbContext context)
         {
             _context = context;
         }
@@ -27,7 +27,7 @@ namespace DotNet.Controllers
         {
             if (!String.IsNullOrEmpty(searchString))
             {
-                var authors = from m in _context.Author where m.FullName.Contains(searchString)
+                var authors = from m in _context.Authors where m.FullName.Contains(searchString)
                           || (string.IsNullOrEmpty(m.Email) ? false : m.Email.Contains(searchString)) 
                           || m.DateOfBirth.ToString().Contains(searchString)
                           select m;
@@ -38,7 +38,7 @@ namespace DotNet.Controllers
             }
             else
             {
-                var authors = from m in _context.Author select m;
+                var authors = from m in _context.Authors select m;
                 authors.OrderBy(s => s.DateOfBirth);
 
                 return View(await authors.ToListAsync());
@@ -55,7 +55,7 @@ namespace DotNet.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Author
+            var author = await _context.Authors
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (author == null)
             {
@@ -80,7 +80,7 @@ namespace DotNet.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(author);
-                await _context.SaveChangesAsync();
+                await _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(author);
@@ -88,14 +88,14 @@ namespace DotNet.Controllers
 
         // GET: Authors/Edit/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return NotFound();
             }
 
-            var author = await _context.Author.FindAsync(id);
+            var author = await _context.FindAuthorById(id);
             if (author == null)
             {
                 return NotFound();
@@ -118,7 +118,7 @@ namespace DotNet.Controllers
                 try
                 {
                     _context.Update(author);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -145,7 +145,7 @@ namespace DotNet.Controllers
                 return NotFound();
             }
 
-            var author = await _context.Author
+            var author = await _context.Authors
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (author == null)
             {
@@ -161,15 +161,15 @@ namespace DotNet.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var author = await _context.Author.FindAsync(id);
-            _context.Author.Remove(author);
-            await _context.SaveChangesAsync();
+            var author = await _context.FindAuthorById(id);
+            _context.Delete<Author>(author);
+            await _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AuthorExists(int id)
         {
-            return _context.Author.Any(e => e.ID == id);
+            return _context.Authors.Any(e => e.ID == id);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace DotNet.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public BooksController(ApplicationDbContext context)
+        public BooksController(IApplicationDbContext context)
         {
             _context = context;
         }
@@ -25,7 +25,7 @@ namespace DotNet.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
 
-            var books = from m in _context.Book.Include(a => a.Author) select m;
+            var books = from m in _context.Books.Include(a => a.Author) select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -52,7 +52,7 @@ namespace DotNet.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
+            var book = await _context.Books
                 .Include(b => b.Author)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (book == null)
@@ -67,7 +67,7 @@ namespace DotNet.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName");
+            ViewData["AuthorID"] = new SelectList(_context.Authors, "ID", "FullName");
             return View();
         }
 
@@ -79,28 +79,28 @@ namespace DotNet.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(book);
-                await _context.SaveChangesAsync();
+                await _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName", book.AuthorID);
+            ViewData["AuthorID"] = new SelectList(_context.Authors, "ID", "FullName", book.AuthorID);
             return View(book);
         }
 
         // GET: Books/Edit/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
                 return NotFound();
             }
 
-            var book = await _context.Book.FindAsync(id);
+            var book = await _context.FindBookById(id);
             if (book == null)
             {
                 return NotFound();
             }
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName", book.AuthorID);
+            ViewData["AuthorID"] = new SelectList(_context.Authors, "ID", "FullName", book.AuthorID);
             return View(book);
         }
 
@@ -119,7 +119,7 @@ namespace DotNet.Controllers
                 try
                 {
                     _context.Update(book);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,7 +134,7 @@ namespace DotNet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorID"] = new SelectList(_context.Author, "ID", "FullName", book.AuthorID);
+            ViewData["AuthorID"] = new SelectList(_context.Authors, "ID", "FullName", book.AuthorID);
             return View(book);
         }
 
@@ -147,7 +147,7 @@ namespace DotNet.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
+            var book = await _context.Books
                 .Include(b => b.Author)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (book == null)
@@ -164,15 +164,15 @@ namespace DotNet.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Book.FindAsync(id);
-            _context.Book.Remove(book);
-            await _context.SaveChangesAsync();
+            var book = await _context.FindBookById(id);
+            _context.Delete<Book>(book);
+            await _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
         {
-            return _context.Book.Any(e => e.ID == id);
+            return _context.Books.Any(e => e.ID == id);
         }
     }
 }

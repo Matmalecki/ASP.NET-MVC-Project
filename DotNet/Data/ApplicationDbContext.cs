@@ -7,10 +7,12 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Project.Models;
 using DotNet.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DotNet.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -18,6 +20,29 @@ namespace DotNet.Data
         }
         public DbSet<Author> Author { get; set; }
         public DbSet<Book> Book { get; set; }
+        IQueryable<Author> IApplicationDbContext.Authors
+        {
+            get { return Author; }
+        }
+        IQueryable<Book> IApplicationDbContext.Books
+        {
+            get { return Book; }
+        }
+
+        public void Delete<T>(T entity) where T : class
+        {
+            Set<T>().Remove(entity);
+        }
+
+        public Task<Author> FindAuthorById(int ID)
+        {
+            return Author.FindAsync(ID);
+        }
+
+        public Task<Book> FindBookById(int ID)
+        {
+            return Book.FindAsync(ID);
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,5 +66,19 @@ namespace DotNet.Data
                 
         }
 
+        void IApplicationDbContext.Add<T>(T entity)
+        {
+            Set<T>().Add(entity);
+            
+        }
+        Task<int> IApplicationDbContext.SaveChanges()
+        {
+            return SaveChangesAsync();
+        }
+
+        void IApplicationDbContext.Update<T>(T entity)
+        {
+            Set<T>().Update(entity);
+        }
     }
 }
