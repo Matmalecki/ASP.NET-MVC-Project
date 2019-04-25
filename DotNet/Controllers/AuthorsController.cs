@@ -132,15 +132,14 @@ namespace DotNet.Controllers
         }
 
         // GET: Authors/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var author = await _context.Authors
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var author = _context.FindAuthorById(id.Value);
             if (author == null)
             {
                 return NotFound();

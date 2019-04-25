@@ -22,7 +22,7 @@ namespace DotNet.Controllers
 
         // GET: Books
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string searchString)
+        public IActionResult Index(string searchString)
         {
 
             var books = from m in _context.Books.Include(a => a.Author) select m;
@@ -40,7 +40,7 @@ namespace DotNet.Controllers
             }
             books.OrderBy(b => b.YearOfRelease);
 
-            return View(await books.ToListAsync());
+            return View(books.ToList());
         }
 
         // GET: Books/Details/5

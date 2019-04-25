@@ -26,7 +26,7 @@ namespace xUnitDotNetTest.Controller
         }
 
         [Fact]
-        void TestFindingAuthor()
+        void TestGettingDetailsOfAuthorByModel()
         {
 
             Author author = new Author()
@@ -37,6 +37,23 @@ namespace xUnitDotNetTest.Controller
             context.Setup(a => a.FindAuthorById(1)).Returns(author);
             _author = new AuthorsController(context.Object);
             var result = _author.Details(1) as ViewResult;
+
+            Assert.Equal(author, result.Model);
+        }
+
+        [Fact]
+        void TestDeleteAuthorByModel()
+        {
+            Author author = new Author()
+            {
+                FirstName = "Test",
+                LastName = "Tests",
+                DateOfBirth = new DateTime(1999, 01, 01)
+            };
+            var context = new Mock<IApplicationDbContext>();
+            context.Setup(a => a.FindAuthorById(1)).Returns(author);
+            _author = new AuthorsController(context.Object);
+            var result = _author.Delete(1) as ViewResult;
 
             Assert.Equal(author, result.Model);
         }
