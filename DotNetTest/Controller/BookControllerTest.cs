@@ -73,5 +73,52 @@ namespace DotNetTest.Controller
             var booksResult = (result.Model as IEnumerable<Book>);
             Assert.Equal(2, booksResult.Count());
         }
+
+        [Fact]
+        void TestSelectingBook()
+        {
+            var dbContext = new FakeContext();
+            var expectedBook = new Book() { ID = 1 };
+            dbContext.Books = new[]
+            {
+                expectedBook,
+                new Book()
+                    { ID=2 },
+               
+            }.AsQueryable();
+
+            booksController = new BooksController(dbContext);
+            var result = booksController.Details(1) as ViewResult;
+            Assert.Equal(expectedBook, result.Model as Book);
+
+        }
+
+        [Fact]
+        void TestSelectingBookThatDoentExists()
+        {
+            var dbContext = new FakeContext();
+            dbContext.Books = new[]
+            {
+                new Book() { ID= 1},
+                new Book()
+                    { ID=2 },
+
+            }.AsQueryable();
+
+            booksController = new BooksController(dbContext);
+
+            var result = booksController.Details(3);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        void TestGettingDetailsFromNull()
+        {
+            var dbContext = new FakeContext();
+            booksController = new BooksController(dbContext);
+            var result = booksController.Details(null);
+            Assert.IsType<NotFoundResult>(result);
+        }
     }
 }

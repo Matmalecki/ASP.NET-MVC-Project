@@ -17,5 +17,21 @@ namespace xUnitDotNetTest
             Assert.Equal("Index", result.ViewName);
 
         }
+
+        [Fact]
+        public void TestHomeAboutByViewData()
+        {
+            var controller = new HomeController();
+            ViewResult result = controller.About() as ViewResult;
+            Assert.Equal("Info", result.ViewData["Message"]);
+        }
+
+        [Fact]
+        public void TestIncorrectUrl()
+        {
+            var controller = new HomeController();
+
+
+        }
     }
 }

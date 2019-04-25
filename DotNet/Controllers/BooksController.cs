@@ -45,16 +45,16 @@ namespace DotNet.Controllers
 
         // GET: Books/Details/5
         [Authorize(Roles = "Admin,User")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var book = await _context.Books
+            var book = _context.Books
                 .Include(b => b.Author)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefault(m => m.ID == id);
             if (book == null)
             {
                 return NotFound();
