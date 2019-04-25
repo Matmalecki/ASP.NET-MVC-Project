@@ -23,7 +23,7 @@ namespace DotNet.Controllers
 
         // GET: Authors
         [Authorize(Roles = "Admin,User")]
-        public async Task<IActionResult> Index(string searchString)
+        public IActionResult Index(string searchString)
         {
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -34,14 +34,14 @@ namespace DotNet.Controllers
 
                 authors.OrderBy(s => s.DateOfBirth);
 
-                return View(await authors.ToListAsync());
+                return View(authors.ToList());
             }
             else
             {
                 var authors = from m in _context.Authors select m;
                 authors.OrderBy(s => s.DateOfBirth);
 
-                return View(await authors.ToListAsync());
+                return View(authors.ToList());
 
             }
 

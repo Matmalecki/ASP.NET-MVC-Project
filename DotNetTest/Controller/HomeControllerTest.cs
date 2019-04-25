@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using DotNet.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using DotNet.Models;
 
 namespace xUnitDotNetTest
 {
@@ -26,12 +27,5 @@ namespace xUnitDotNetTest
             Assert.Equal("Info", result.ViewData["Message"]);
         }
 
-        [Fact]
-        public void TestIncorrectUrl()
-        {
-            var controller = new HomeController();
-
-
-        }
     }
 }
